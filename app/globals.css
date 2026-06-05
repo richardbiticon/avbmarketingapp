@@ -66,12 +66,12 @@ body {
   color: #fff;
 }
 
-/* Times italic red accent. Pops hard on black. */
+/* Emphasis accent. Same Helvetica, just red and a touch heavier. Athletic,
+   not editorial — no serif, no italic. */
 .accent {
-  font-family: "Times New Roman", Times, serif;
-  font-style: italic;
   color: var(--red);
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 600;
 }
 
 .shell {
