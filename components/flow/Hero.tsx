@@ -1,12 +1,18 @@
 "use client";
 
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import Image from "next/image";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SplitText from "@/components/ui/SplitText";
 import { ButtonLink } from "@/components/ui/Button";
 import { EASE } from "@/lib/motion";
+
+// 3D is client-only and heavy: load it lazily so it never blocks first paint.
+const Volleyball = dynamic(() => import("@/components/three/Volleyball"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -80,7 +86,7 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Parallax photography */}
+        {/* 3D product moment */}
         <motion.div
           initial={reduce ? false : { opacity: 0, scale: 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -89,21 +95,30 @@ export default function Hero() {
         >
           <motion.div
             style={reduce ? undefined : { y: photoY }}
-            className="absolute inset-0 overflow-hidden"
+            className="absolute inset-0"
           >
-            <Image
-              src="/photos/shoe-sky-elite-1.webp"
-              alt="Court shoe fitted for a team order"
-              fill
-              priority
-              sizes="45vw"
-              className="object-cover"
+            {/* Red ember gradient behind the ball */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                backgroundImage:
+                  "radial-gradient(58% 52% at 58% 46%, rgba(215,23,42,0.32), rgba(215,23,42,0.07) 42%, transparent 70%)",
+              }}
+              aria-hidden
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-surface/60 via-transparent to-transparent" />
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                backgroundImage:
+                  "radial-gradient(40% 40% at 50% 48%, rgba(255,255,255,0.07), transparent 68%)",
+              }}
+              aria-hidden
+            />
+            <Volleyball />
           </motion.div>
           <div className="absolute bottom-5 left-5 z-10">
             <span className="label text-bone/70">
-              The kit / configured to your colors
+              Match ball / drag to spin
             </span>
           </div>
         </motion.div>
